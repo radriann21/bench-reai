@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+  --font-headings: "Syne";
+  --font-body: "Inter";
+
+  --color-main-bg: #080c14;
+  --color-main-text: #f5faff;
+  --color-bg-card: #0c111b;
+  --color-secondary: hsl(217, 33%, 17%);
+  --color-secondary-text: #9aa5b8;
+  --color-accent: #8b5cf6;
+  --color-border: #1a2436; 
+}

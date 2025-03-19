@@ -1,5 +1,7 @@
 export default function Home() {
   return (
-    <h1 className="text-red-500 font-bold text-3xl">Hello World</h1>
+    <main className="max-w-full min-h-screen bg-main-bg text-main-text">
+      <h1 className="font-headings text-3xl">Hello world</h1>
+    </main>
   );
 }
