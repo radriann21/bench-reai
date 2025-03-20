@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth antialiased">
+    <html lang="en" className="scroll-smooth antialiased" suppressHydrationWarning>
       <body className={`${syne.variable} ${inter.variable} max-w-full`}>
         {children}
       </body>
