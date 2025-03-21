@@ -1,13 +1,18 @@
 "use client";
 import Editor from "@monaco-editor/react";
+import { useCodeContext } from "@/context/CodeContext";
 
 export const CodeEditor = () => {
+
+  const { code, setCode } = useCodeContext();
+
   return (
     <>
       <Editor
         height={400}
         language="javascript"
-        defaultValue="console.log('Hello World');"
+        onChange={(value) => setCode(value || "")}
+        defaultValue={code}
         theme="vs-dark"
         options={{
           minimap: { enabled: false },

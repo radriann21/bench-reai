@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, Inter } from "next/font/google";
+import { CodeContextProvider } from "@/context/CodeContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,7 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth antialiased" suppressHydrationWarning>
       <body className={`${syne.variable} ${inter.variable} max-w-full`}>
-        {children}
+        <CodeContextProvider>
+          {children}
+        </CodeContextProvider>
       </body>
     </html>
   );
