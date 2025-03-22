@@ -1,29 +1,17 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import { executeCode } from "@/actions/executeCode";
+import { type CodeContextType } from "@/types";
 
-type CodeContext = {
-  // context state
-  code: string,
-  results: {
-    success: boolean,
-    executionTime: string,
-    opsPerSecond: string,
-    memoryUsed: string
-  }
-
-  // context actions
-  setCode: (code: string) => void
-  runCode: () => void
-}
-
-export const CodeContext = createContext<CodeContext>({
+export const CodeContext = createContext<CodeContextType>({
   code: "",
   results: {
     success: false,
     executionTime: "",
     opsPerSecond: "",
-    memoryUsed: ""
+    memoryUsed: "",
+    output: "",
+    error: ""
   },
   setCode: () => {},
   runCode: () => {} 
@@ -35,13 +23,24 @@ export const CodeContextProvider = ({ children }: { children: React.ReactNode })
     success: false,
     executionTime: "",
     opsPerSecond: "",
-    memoryUsed: ""
+    memoryUsed: "",
+    output: "",
+    error: ""
   })
 
   const runCode = async () => {
     const result = await executeCode(code)
-    if (result?.success) {
-      setResults(result)
+    if (!result?.success) {
+      setResults({
+        success: false,
+        executionTime: "",
+        opsPerSecond: "",
+        memoryUsed: "",
+        output: "",
+        error: result?.error
+      })
+    } else {
+      setResults({...result, error: ""})
     }
   }
 

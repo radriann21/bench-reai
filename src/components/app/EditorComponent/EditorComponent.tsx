@@ -11,6 +11,7 @@ import {
 import { CodeEditor } from "./CodeEditor";
 import { Button } from "@/components/ui/button";
 import { useCodeContext } from "@/context/CodeContext";
+import { AIComponent } from "../AIComponent/AIComponent";
 
 export const EditorComponent = () => {
 
@@ -34,16 +35,7 @@ export const EditorComponent = () => {
         </Button>
         </CardContent>
       </Card>
-      <Card className="bg-bg-card border-1 border-custom-border text-main-text mt-8">
-        <CardHeader>
-          <CardTitle className="font-headings text-lg">
-            AI Assistant
-          </CardTitle>
-          <CardDescription className="font-body text-secondary-text">
-            Ask to the AI Assistant to improve your code, give explanations and suggestions about what you need.
-          </CardDescription>
-        </CardHeader>
-      </Card>
+      <AIComponent />
     </div>
   )
 }

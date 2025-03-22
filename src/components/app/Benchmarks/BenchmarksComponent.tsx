@@ -2,13 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { useCodeContext } from "@/context/CodeContext";
+import { BenchmarksCard } from "./BenchmarksCard";
 
 export const BenchmarksComponent = () => {
   const { results } = useCodeContext()
   const { executionTime, opsPerSecond, memoryUsed } = results
 
   return (
-    <Card className="bg-bg-card border-1 border-custom-border text-main-text col-span-1 row-span-1">
+    <Card className="bg-bg-card border-1 border-custom-border text-main-text col-span-1 row-span-2">
       <CardHeader>
         <CardTitle className="font-headings text-lg">
           Benchmarks
@@ -17,29 +18,31 @@ export const BenchmarksComponent = () => {
           Run your code to see the benchmarks results
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-8">
         <div className="w-full flex items-center justify-between gap-4">
-          <article className="p-4 rounded-md border-1 border-custom-border text-main-text w-full">
-            <h3 className="font-headings text-sm font-semibold mb-4">Execution Time</h3>
-            <div>
-              <span className="font-headings font-bold block">{executionTime || 'no execution yet'}</span>
-              <span className="font-body text-secondary-text text-sm">Time in miliseconds</span>
-            </div>
-          </article>
-          <article className="p-4 rounded-md border-1 border-custom-border text-main-text w-full">
-            <h3 className="font-headings text-sm font-semibold mb-4">N° Operations</h3>
-            <div>
-              <span className="font-headings font-bold block">{opsPerSecond || 'no execution yet'}</span>
-              <span className="font-body text-secondary-text text-sm">Operations per second</span>
-            </div>
-          </article>
-          <article className="p-4 rounded-md border-1 border-custom-border text-main-text w-full">
-            <h3 className="font-headings text-sm font-semibold mb-4">Memory Usage</h3>
-            <div>
-              <span className="font-headings font-bold block">{memoryUsed || 'no execution yet'}</span>
-              <span className="font-body text-secondary-text text-sm">Total Heap Used</span>
-            </div>
-          </article>
+          <BenchmarksCard 
+            title="Execution Time"
+            value={executionTime || 'no execution yet'}
+            description="Time in miliseconds"
+          />
+          <BenchmarksCard 
+            title="N° Operations"
+            value={opsPerSecond || 'no execution yet'}
+            description="Operations per second"
+          />
+          <BenchmarksCard 
+            title="Memory Usage"
+            value={memoryUsed || 'no execution yet'}
+            description="Total Heap Used"
+          />
+        </div>
+        <div className="mt-2 w-full h-full">
+          <h3 className="font-headings text-sm font-semibold mb-4">Output</h3>
+          <div className="rounded-md border-1 border-custom-border bg-slate-900 h-[220px] p-4 overflow-y-scroll">
+            <pre>
+              <code>{results.output || 'no execution yet'}</code>
+            </pre>
+          </div>
         </div>
       </CardContent>
     </Card>
