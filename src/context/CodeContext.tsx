@@ -5,6 +5,7 @@ import { type CodeContextType } from "@/types";
 
 export const CodeContext = createContext<CodeContextType>({
   code: "",
+  activeTab: "editor",
   results: {
     success: false,
     executionTime: "",
@@ -14,11 +15,13 @@ export const CodeContext = createContext<CodeContextType>({
     error: ""
   },
   setCode: () => {},
-  runCode: () => {} 
+  runCode: () => {},
+  setActiveTab: (tab: string) => {}
 })
 
 export const CodeContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [code, setCode] = useState("const arr = Array.from({ length: 1000 }, (_,i) => i)\nconst findNumber = arr.find(item => item === 50)")
+  const [code, setCode] = useState("const arr = Array.from({ length: 1000 }, (_,i) => i)\r\nconst findNumber = arr.find(item => item === 50)")
+  const [activeTab, setActiveTab] = useState<string>('editor')
   const [results, setResults] = useState({
     success: false,
     executionTime: "",
@@ -39,13 +42,15 @@ export const CodeContextProvider = ({ children }: { children: React.ReactNode })
         output: "",
         error: result?.error
       })
+      setActiveTab('benchmark')
     } else {
       setResults({...result, error: ""})
+      setActiveTab('benchmark')
     }
   }
 
   return (
-    <CodeContext.Provider value={{ code, setCode, runCode, results }}>
+    <CodeContext.Provider value={{ code, setCode, runCode, results, activeTab, setActiveTab }}>
       {children}
     </CodeContext.Provider>
   )

@@ -16,6 +16,7 @@ export type ExecuteCodeResult = ExecuteCodeResultSuccess | ExecuteCodeResultErro
 export type CodeContextType = {
   // context state
   code: string,
+  activeTab: string,
   results: {
     success: boolean,
     executionTime: string,
@@ -28,4 +29,5 @@ export type CodeContextType = {
   // context actions
   setCode: (code: string) => void
   runCode: () => void
+  setActiveTab: (tab: string) => void
 }

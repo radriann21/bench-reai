@@ -1,50 +1,24 @@
 "use client";
-
-import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { useCodeContext } from "@/context/CodeContext";
+import { EmptyState } from "@/components/app/EmptyState/EmptyState";
 import { BenchmarksCard } from "./BenchmarksCard";
+import { Play } from "lucide-react";
 
 export const BenchmarksComponent = () => {
   const { results } = useCodeContext()
   const { executionTime, opsPerSecond, memoryUsed } = results
 
+  if (!executionTime || !opsPerSecond || !memoryUsed) {
+    return (
+      <EmptyState title="No execution yet" description="Run benchmarks to see the performance of your code" icon={<Play />} />
+    )
+  }
+
   return (
-    <Card className="bg-bg-card border-1 border-custom-border text-main-text col-span-1 row-span-2">
-      <CardHeader>
-        <CardTitle className="font-headings text-lg">
-          Benchmarks
-        </CardTitle>
-        <CardDescription className="font-body text-secondary-text">
-          Run your code to see the benchmarks results
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-8">
-        <div className="w-full flex items-center justify-between gap-4">
-          <BenchmarksCard 
-            title="Execution Time"
-            value={executionTime || 'no execution yet'}
-            description="Time in miliseconds"
-          />
-          <BenchmarksCard 
-            title="N° Operations"
-            value={opsPerSecond || 'no execution yet'}
-            description="Operations per second"
-          />
-          <BenchmarksCard 
-            title="Memory Usage"
-            value={memoryUsed || 'no execution yet'}
-            description="Total Heap Used"
-          />
-        </div>
-        <div className="mt-2 w-full h-full">
-          <h3 className="font-headings text-sm font-semibold mb-4">Output</h3>
-          <div className="rounded-md border-1 border-custom-border bg-slate-900 h-[220px] p-4 overflow-y-scroll">
-            <pre>
-              <code>{results.output || 'no execution yet'}</code>
-            </pre>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="w-full grid grid-cols-2 gap-4">
+      <BenchmarksCard title="Execution Time" description="The time that the code needs to execute." value={executionTime} />
+      <BenchmarksCard title="Operations per second" description="Capability of the code to perform operations per second." value={opsPerSecond} />
+      <BenchmarksCard title="Memory used" description="The amount of memory that the code uses." value={memoryUsed} />
+    </div>
   )
 }

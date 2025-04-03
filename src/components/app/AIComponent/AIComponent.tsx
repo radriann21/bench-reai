@@ -9,7 +9,7 @@ import { ChatComponent } from "./ChatComponent";
 
 export const AIComponent = () => {
   return (
-    <Card className="bg-bg-card border-1 border-custom-border text-main-text mt-8">
+    <Card className="bg-bg-card border-1 border-custom-border text-main-text col-span-2 h-fit">
       <CardHeader>
         <CardTitle className="font-headings text-lg">AI Assistant</CardTitle>
         <CardDescription className="font-body text-secondary-text">

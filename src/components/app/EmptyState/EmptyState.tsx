@@ -1,13 +1,11 @@
-import { MessageCircleDashed } from "lucide-react"
-
-export const EmptyState = () => {
+export const EmptyState = ({ title, description, icon }: { title: string; description: string; icon: React.ReactNode }) => {
   return (
     <section className="font-body w-full h-full">
-      <div className="flex items-center space-x-4">
-        <MessageCircleDashed className="w-8 h-8 text-main-text" />
+      <div className="flex items-start space-x-4 justify-start flex-col space-y-2">
+        {icon}
         <div>
-          <h3 className="font-headings text-xl text-main-text">No chat yet.</h3>
-          <p className="text-secondary-text">Start asking the AI Assistant to get started.</p>
+          <h3 className="font-headings text-xl text-main-text">{title}</h3>
+          <p className="text-secondary-text">{description}</p>
         </div>
       </div>
     </section>
