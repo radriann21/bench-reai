@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Syne, Inter } from "next/font/google";
 import { CodeContextProvider } from "@/context/CodeContext";
 import "./globals.css";
+import "github-markdown-css/github-markdown.css"
 
 const inter = Inter({
   variable: "--font-inter",

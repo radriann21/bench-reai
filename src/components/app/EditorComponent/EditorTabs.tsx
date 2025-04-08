@@ -1,18 +1,17 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Play } from "lucide-react";
 import { CodeEditor } from "./CodeEditor";
-import { BenchmarksComponent } from "@/components/app/Benchmarks/BenchmarksComponent";
+import { BenchmarksComponent } from "../Benchmarks/BenchmarksComponent";
 import { useCodeContext } from "@/context/CodeContext";
+import { EditorOptions } from "./EditorOptions";
 
 export const EditorTabs = () => {
-  const { runCode, setActiveTab, activeTab } = useCodeContext()
+  const { setActiveTab, activeTab } = useCodeContext();
 
   return (
-    <section className="w-[50%] flex flex-col">
+    <section className="w-[40%] flex flex-col">
       <h2 className="font-headings text-xl font-bold text-main-text mb-4">
-        Write your code and run to see the performance!
+        Write your code and run it!
       </h2>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <div className="w-full flex items-center justify-between mb-2">
@@ -30,15 +29,14 @@ export const EditorTabs = () => {
               Benchmarks
             </TabsTrigger>
           </TabsList>
-          <Button className="text-sm cursor-pointer bg-green-600 flex items-center hover:bg-green-700 group" onClick={runCode}>
-            Run Benchmarks
-            <Play className="w-5 h-5 group-hover:animate-pulse" />
-          </Button>
+          <EditorOptions />
         </div>
         <TabsContent value="editor">
           <CodeEditor />
-          <span className="text-xs text-secondary-text">
-            Note: This is a simple benchmark. For more accurate results, consider running multiple iterations and using more sophisticated benchmarking tools.
+          <span className="text-[11px] text-secondary-text">
+            Note: This is a simple benchmark. For more accurate results,
+            consider running multiple iterations and using more sophisticated
+            benchmarking tools.
           </span>
         </TabsContent>
         <TabsContent value="benchmark">

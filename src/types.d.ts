@@ -29,5 +29,5 @@ export type CodeContextType = {
   // context actions
   setCode: (code: string) => void
   runCode: () => void
-  setActiveTab: (tab: string) => void
+  setActiveTab: (tab: string) => void,
 }

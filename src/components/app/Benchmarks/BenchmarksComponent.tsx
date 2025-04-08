@@ -1,6 +1,6 @@
 "use client";
 import { useCodeContext } from "@/context/CodeContext";
-import { EmptyState } from "@/components/app/EmptyState/EmptyState";
+import { EmptyState } from "../EmptyState/EmptyState";
 import { BenchmarksCard } from "./BenchmarksCard";
 import { Play } from "lucide-react";
 

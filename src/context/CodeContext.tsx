@@ -16,7 +16,7 @@ export const CodeContext = createContext<CodeContextType>({
   },
   setCode: () => {},
   runCode: () => {},
-  setActiveTab: (tab: string) => {}
+  setActiveTab: (tab: string) => {},
 })
 
 export const CodeContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -48,6 +48,22 @@ export const CodeContextProvider = ({ children }: { children: React.ReactNode })
       setActiveTab('benchmark')
     }
   }
+
+  const sendCodeToAI = async () => {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: [{ role: "user", content: code }] }),
+    });
+  
+    if (!response.ok) {
+      console.error("Error sending code to AI");
+      return;
+    }
+  
+    const data = await response.json();
+    console.log("AI Response:", data)
+  };
 
   return (
     <CodeContext.Provider value={{ code, setCode, runCode, results, activeTab, setActiveTab }}>
