@@ -3,7 +3,7 @@ import { EditorTabs } from "../EditorComponent/EditorTabs"
 
 export const MainSection = () => {
   return (
-    <section className="max-w-7xl mx-auto h-auto flex justify-between py-8 gap-10">
+    <section className="w-full lg:max-w-7xl mx-auto h-auto flex flex-col md:flex-row justify-between py-8 gap-10">
       <EditorTabs />
       <AIComponent />
     </section>

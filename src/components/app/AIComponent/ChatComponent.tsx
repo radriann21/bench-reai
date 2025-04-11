@@ -1,6 +1,5 @@
 "use client";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { useCallback } from "react";
 import { useCodeContext } from "@/context/CodeContext";
 import { Textarea } from "@/components/ui/textarea";
@@ -42,7 +41,7 @@ export const ChatComponent = () => {
 
   return (
     <section className="w-full p-2 rounded-md bg-[#0d131f] border-1 border-gray-700">
-      <ScrollArea className="flex flex-col w-full py-4 px-4 mx-auto h-[380px] text-sm">
+      <ScrollArea className="flex flex-col w-full py-4 mx-auto h-[380px] text-sm">
         {error && (
           <div className="w-fit mx-auto text-center flex flex-col">
             <span className="font-headings text-lg text-red-500">
@@ -61,17 +60,17 @@ export const ChatComponent = () => {
           message.role === "user" ? (
             <div
               key={message.id}
-              className="flex-1 bg-slate-800 shadow-md sm:leading-6 flex items-center justify-center p-4"
+              className="flex-1 bg-slate-900 flex flex-col md:flex-row md:items-center justify-center p-4"
             >
               <div className="flex flex-row">
                 <img
-                  className="mr-2 flex h-8 w-8 rounded-full sm:mr-4"
+                  className="mb-2 md:mb-0 flex h-8 w-8 rounded-full sm:mr-4"
                   src="https://dummyimage.com/256x256/363536/ffffff&text=U"
                   alt="something"
                 />
               </div>
               <div className="flex flex-col w-full markdown-body">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                <ReactMarkdown>
                   {message.content}
                 </ReactMarkdown>
               </div>
