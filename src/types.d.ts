@@ -30,4 +30,5 @@ export type CodeContextType = {
   setCode: (code: string) => void
   runCode: () => void
   setActiveTab: (tab: string) => void,
+  analyzeCode: () => void
 }

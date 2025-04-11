@@ -1,14 +1,44 @@
 "use client";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { useCallback } from "react";
+import { useCodeContext } from "@/context/CodeContext";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { SendHorizontal, Repeat, LoaderCircle } from "lucide-react";
-import { useChat } from "@ai-sdk/react";
+import { SendHorizontal, Repeat, LoaderCircle, Sparkles } from "lucide-react";
+import { Message, useChat } from "@ai-sdk/react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AIResponse } from "./AIResponse";
 
 export const ChatComponent = () => {
-  const { messages, input, handleInputChange, handleSubmit, error, reload, status } =
-    useChat();
+  const { code } = useCodeContext();
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    error,
+    reload,
+    status,
+    append,
+  } = useChat();
+
+  const analyzeCode = useCallback(async () => {
+    if (code === "") return;
+    try {
+      const message: Message = {
+        id: crypto.randomUUID(),
+        role: "user",
+        content: `Analyze the code: \n\n\`\`\`javascript\n${code}\n\`\`\``,
+      };
+      await append(message);
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log("error!");
+        return;
+      }
+    }
+  }, [append]);
 
   return (
     <section className="w-full p-2 rounded-md bg-[#0d131f] border-1 border-gray-700">
@@ -40,8 +70,10 @@ export const ChatComponent = () => {
                   alt="something"
                 />
               </div>
-              <div className="flex w-full items-center">
-                <p>{message.content}</p>
+              <div className="flex flex-col w-full markdown-body">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {message.content}
+                </ReactMarkdown>
               </div>
             </div>
           ) : (
@@ -52,21 +84,32 @@ export const ChatComponent = () => {
 
       <form className="flex space-x-2 items-end" onSubmit={handleSubmit}>
         <Textarea
-          className="h-12 w-full p-2 resize-none border-1 border-gray-800 text-xs placeholder:text-xs placeholder:text-secondary-text"
+          className="h-12 w-[520px] p-2 resize-none border-1 border-gray-800 text-xs placeholder:text-xs placeholder:text-secondary-text mr-2"
           placeholder="Write your message..."
           value={input}
           onChange={handleInputChange}
         />
-        <Button
-          className="bg-green-600 text-white hover:bg-green-700 flex items-center"
-          type="submit"
-          disabled={status === "streaming"}
-        >
-          Send
-          {
-            status === "streaming" ? <LoaderCircle className="w-5 h-5 animate-spin" /> : <SendHorizontal className="w-5 h-5" />
-          }
-        </Button>
+        <div className="flex items-center space-x-2">
+          <Button
+            onClick={analyzeCode}
+            className="flex items-center bg-green-600 text-white cursor-pointer hover:bg-green-700"
+          >
+            Analyze
+            <Sparkles className="w-5 h-5 stroke-white" />
+          </Button>
+          <Button
+            className="bg-green-600 text-white hover:bg-green-700 flex items-center"
+            type="submit"
+            disabled={status === "streaming"}
+          >
+            Send
+            {status === "streaming" ? (
+              <LoaderCircle className="w-5 h-5 animate-spin" />
+            ) : (
+              <SendHorizontal className="w-5 h-5" />
+            )}
+          </Button>
+        </div>
       </form>
     </section>
   );

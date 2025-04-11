@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
+import { Message, useChat } from "@ai-sdk/react";
 import { executeCode } from "@/actions/executeCode";
 import { type CodeContextType } from "@/types";
 
@@ -17,6 +18,7 @@ export const CodeContext = createContext<CodeContextType>({
   setCode: () => {},
   runCode: () => {},
   setActiveTab: (tab: string) => {},
+  analyzeCode: () => {}
 })
 
 export const CodeContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -30,6 +32,7 @@ export const CodeContextProvider = ({ children }: { children: React.ReactNode })
     output: "",
     error: ""
   })
+  const { setMessages, append } = useChat()
 
   const runCode = async () => {
     const result = await executeCode(code)
@@ -49,24 +52,26 @@ export const CodeContextProvider = ({ children }: { children: React.ReactNode })
     }
   }
 
-  const sendCodeToAI = async () => {
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [{ role: "user", content: code }] }),
-    });
-  
-    if (!response.ok) {
-      console.error("Error sending code to AI");
-      return;
+  const analyzeCode = useCallback(async () => {
+    if (code === '') return
+    try {
+      const message: Message = {
+        id: crypto.randomUUID(),
+        role: "user",
+        content: `Analiza el siguiente código y dame sugerencias, explicaciones, mejoras, la notación Big O y posibles problemas de memoria, tiempo de ejecución y número de operaciones:\n\n\`\`\`javascript\n${code}\n\`\`\``,
+      }
+      await append(message)
+      setMessages((prev) => [...prev, message])
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log('error!')
+        return
+      }
     }
-  
-    const data = await response.json();
-    console.log("AI Response:", data)
-  };
+  }, [code, append])
 
   return (
-    <CodeContext.Provider value={{ code, setCode, runCode, results, activeTab, setActiveTab }}>
+    <CodeContext.Provider value={{ code, setCode, runCode, results, activeTab, setActiveTab, analyzeCode }}>
       {children}
     </CodeContext.Provider>
   )
