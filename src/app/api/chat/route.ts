@@ -1,8 +1,6 @@
 import { google } from "@ai-sdk/google"
 import { streamText, Message } from "ai"
 
-export const MAX_DURATION = 30;
-
 export async function POST(request: Request) {
   try {
     const model = google('gemini-2.0-flash-lite-preview-02-05', {

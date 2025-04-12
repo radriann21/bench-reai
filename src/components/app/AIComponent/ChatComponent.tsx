@@ -1,5 +1,6 @@
 "use client";
 import ReactMarkdown from "react-markdown";
+import Image from "next/image";
 import { useCallback } from "react";
 import { useCodeContext } from "@/context/CodeContext";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,7 +38,7 @@ export const ChatComponent = () => {
         return;
       }
     }
-  }, [append]);
+  }, [append, code]);
 
   return (
     <section className="w-full p-2 rounded-md bg-[#0d131f] border-1 border-gray-700">
@@ -63,7 +64,9 @@ export const ChatComponent = () => {
               className="flex-1 bg-slate-900 flex flex-col md:flex-row md:items-center justify-center p-4"
             >
               <div className="flex flex-row">
-                <img
+                <Image
+                  width={32}
+                  height={32}
                   className="mb-2 md:mb-0 flex h-8 w-8 rounded-full sm:mr-4"
                   src="https://dummyimage.com/256x256/363536/ffffff&text=U"
                   alt="something"
@@ -76,7 +79,7 @@ export const ChatComponent = () => {
               </div>
             </div>
           ) : (
-            <AIResponse message={message} />
+            <AIResponse key={message.id} message={message} />
           )
         )}
       </ScrollArea>
