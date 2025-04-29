@@ -14,9 +14,9 @@ export const CodeContext = createContext<CodeContextType>({
     output: "",
     error: ""
   },
-  setCode: () => {},
-  runCode: () => {},
-  setActiveTab: () => {},
+  setCode: () => { },
+  runCode: () => { },
+  setActiveTab: () => { },
 })
 
 export const CodeContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -44,13 +44,21 @@ export const CodeContextProvider = ({ children }: { children: React.ReactNode })
       })
       setActiveTab('benchmark')
     } else {
-      setResults({...result, error: ""})
+      setResults({ ...result, error: "" })
       setActiveTab('benchmark')
     }
   }
 
   return (
-    <CodeContext.Provider value={{ code, setCode, runCode, results, activeTab, setActiveTab }}>
+    <CodeContext.Provider
+      value={{
+        code,
+        setCode,
+        runCode,
+        results,
+        activeTab,
+        setActiveTab
+      }}>
       {children}
     </CodeContext.Provider>
   )
